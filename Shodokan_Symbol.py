@@ -9,7 +9,7 @@ def circle(ctx, x,y, radius):
 
 
 
-def main(TEST, FEATURE, MEDAL, PDFNAME):
+def main(TEST, FEATURE, OUTLINE, PDFNAME):
 
     # set the canvas
     # ==============
@@ -165,7 +165,7 @@ def main(TEST, FEATURE, MEDAL, PDFNAME):
                     ctx.curve_to(bx, by, cx, cy, dx, dy)
                     #ctx.set_source_rgb(0, 0, 1)
                     if FILL == False:
-                        if MEDAL == False:
+                        if OUTLINE:
                             ctx.set_source_rgb(*GRAY)
                         else:
                             ctx.set_source_rgb(*BLUE)
@@ -189,7 +189,7 @@ def main(TEST, FEATURE, MEDAL, PDFNAME):
                     ctx.curve_to(bx, by, cx, cy, dx, dy)
                     #ctx.set_source_rgb(0, 1, 0)
                     if FILL == False:
-                        if MEDAL == False:
+                        if OUTLINE:
                             ctx.set_source_rgb(*GRAY)
                         else:
                             ctx.set_source_rgb(*BLUE)
@@ -205,7 +205,7 @@ def main(TEST, FEATURE, MEDAL, PDFNAME):
                     ctx.fill()
             else:
                 ctx.set_line_width(1.5) 
-                if MEDAL == False:
+                if OUTLINE:
                     ctx.set_source_rgb(*GRAY)
                 else:
                     ctx.set_source_rgb(*BLUE)
@@ -238,7 +238,7 @@ def main(TEST, FEATURE, MEDAL, PDFNAME):
 
     # === red circle ===
     if not TEST or FEATURE == "circle":
-        if MEDAL == False:
+        if OUTLINE:
             ctx.set_source_rgb(*GRAY)
         else:
             ctx.set_source_rgb(*RED)
@@ -252,12 +252,12 @@ def main(TEST, FEATURE, MEDAL, PDFNAME):
 
 
 if __name__ == "__main__":
-    main(TEST=False, FEATURE=None, MEDAL=False, PDFNAME="Shodokan_Symbol.pdf")
-    main(TEST=False, FEATURE=None, MEDAL=True, PDFNAME="Shodokan_Symbol_medal.pdf")
+    main(TEST=False, FEATURE=None, OUTLINE=True, PDFNAME="Shodokan_Symbol.pdf")
+    main(TEST=False, FEATURE=None, OUTLINE=False, PDFNAME="Shodokan_Symbol_no_outline.pdf")
 
-    main(TEST=True, FEATURE="flower", MEDAL=True, PDFNAME="Shodokan_Symbol_test_flower.pdf")
-    main(TEST=True, FEATURE="star", MEDAL=True, PDFNAME="Shodokan_Symbol_test_star.pdf")
-    main(TEST=True, FEATURE="circle", MEDAL=True, PDFNAME="Shodokan_Symbol_test_circle.pdf")
+    main(TEST=True, FEATURE="flower", OUTLINE=True, PDFNAME="Shodokan_Symbol_test_flower.pdf")
+    main(TEST=True, FEATURE="star", OUTLINE=True, PDFNAME="Shodokan_Symbol_test_star.pdf")
+    main(TEST=True, FEATURE="circle", OUTLINE=True, PDFNAME="Shodokan_Symbol_test_circle.pdf")
 
 
 
