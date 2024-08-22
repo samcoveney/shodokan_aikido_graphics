@@ -1,0 +1,14 @@
+# Shodokan Aikido graphics
+
+PDF recreations of Shodokan Aikido graphics.
+
+## Shodokan Symbol
+
+There is:
+- Shodokan_Symbol_original.png : the original PNG image
+- Shodokan_Symbol.py : script to recreate original as PDF
+- Shodokan_Symbol.pdf : PDF recreation
+- Shodokan_Symbol_medal.pdf : PDF recreation without some outlines
+- Shodokan_Symbol_test_flower.pdf : test new flower against original
+- Shodokan_Symbol_test_star.pdf : test new star against original
+- Shodokan_Symbol_test_circle.pdf : test new circle against PNG
