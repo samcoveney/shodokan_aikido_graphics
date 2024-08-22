@@ -31,8 +31,14 @@ pdf = cairo.PDFSurface( pdfname,
 ctx = cairo.Context(pdf)
 ctx.scale(point_to_millimeter, point_to_millimeter)
 
+
+# line cap options - not consistent...
+ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+
+
 # Open image to an ARGB32 ImageSurface
 TEST = False
+MEDAL = False
 
 if TEST:
     filename = 'Shodokan_Symbol.png'
@@ -164,8 +170,13 @@ if True:
 
                 ctx.curve_to(bx, by, cx, cy, dx, dy)
                 #ctx.set_source_rgb(0, 0, 1)
-                #ctx.stroke()
-                #ctx.move_to(dx, dy) # starting point
+                if FILL == False:
+                    if MEDAL == False:
+                        ctx.set_source_rgb(*GRAY)
+                    else:
+                        ctx.set_source_rgb(*BLUE)
+                    ctx.stroke()
+                    ctx.move_to(dx, dy) # starting point
 
 
                 # rest of the way
@@ -183,7 +194,12 @@ if True:
 
                 ctx.curve_to(bx, by, cx, cy, dx, dy)
                 #ctx.set_source_rgb(0, 1, 0)
-                #ctx.stroke()
+                if FILL == False:
+                    if MEDAL == False:
+                        ctx.set_source_rgb(*GRAY)
+                    else:
+                        ctx.set_source_rgb(*BLUE)
+                    ctx.stroke()
                 dx = ox + radius * np.sin(ang + BUF)
                 dy = oy + radius * np.cos(ang + BUF)
                 ctx.line_to(dx, dy) # starting point
@@ -195,8 +211,10 @@ if True:
                 ctx.fill()
         else:
             ctx.set_line_width(1.5) 
-            ctx.set_source_rgb(*GRAY)
-            #ctx.set_source_rgb(*BLUE)
+            if MEDAL == False:
+                ctx.set_source_rgb(*GRAY)
+            else:
+                ctx.set_source_rgb(*BLUE)
             ctx.stroke()
 
 if False:
@@ -226,7 +244,10 @@ if False:
 
 # === red circle ===
 if True:
-    ctx.set_source_rgb(*GRAY)
+    if MEDAL == False:
+        ctx.set_source_rgb(*GRAY)
+    else:
+        ctx.set_source_rgb(*RED)
     #ctx.set_source_rgb(*RED)
     circle(ox, oy, 21.5)
     ctx.set_source_rgb(*RED)
