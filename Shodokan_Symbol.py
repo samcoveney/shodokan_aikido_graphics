@@ -150,7 +150,7 @@ if True:
         ax = ox + radius* np.sin(BUF)
         ay = oy + radius* np.cos(BUF)
         ctx.move_to(ax, ay) # starting point
-        for arc in range(1, 10):
+        for arc in range(1, 9):
 
             if FILL == False or arc < 9:  # NOTE: extra gray outline to work with BUF
                 # bezier to half-way
