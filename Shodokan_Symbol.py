@@ -32,7 +32,7 @@ ctx = cairo.Context(pdf)
 ctx.scale(point_to_millimeter, point_to_millimeter)
 
 # Open image to an ARGB32 ImageSurface
-TEST = False
+TEST = True
 
 if TEST:
     filename = 'Shodokan_Symbol.png'
@@ -136,10 +136,10 @@ radius *=1.03
 if True:
 
     for FILL in [True, False]:
-        A, B, C = 0.44, 0.57, 0.45
+        A, B, C = 0.44, 0.6, 0.48
         DIV = 10.0
-        BUF = 0.0045
-        #BUF = 0.02
+        BUF = 0.00
+        #BUF = -0.002
         ax, ay = ox, oy + radius
         ax = ox + radius* np.sin(BUF)
         ay = oy + radius* np.cos(BUF)
@@ -156,11 +156,11 @@ if True:
 
                 # TODO: move the spline control points inwards
 
-                bx = ox + radius * np.sin(ang - sang * 5/DIV) * B 
-                by = oy + radius * np.cos(ang - sang * 5/DIV) * B
+                bx = ox + radius * np.sin(ang - sang * 4.2/DIV) * B 
+                by = oy + radius * np.cos(ang - sang * 4.2/DIV) * B
 
-                cx = ox + radius * np.sin(ang - sang * 3/DIV) * C
-                cy = oy + radius * np.cos(ang - sang * 3/DIV) * C
+                cx = ox + radius * np.sin(ang - sang * 5/DIV) * C
+                cy = oy + radius * np.cos(ang - sang * 5/DIV) * C
 
                 ctx.curve_to(bx, by, cx, cy, dx, dy)
                 #ctx.set_source_rgb(0, 0, 1)
@@ -175,11 +175,11 @@ if True:
 
                 # TODO: move the spline control points inwards
 
-                bx = ox + radius * np.sin(ang - 0.5*sang + sang * 3/DIV) * C 
-                by = oy + radius * np.cos(ang - 0.5*sang + sang * 3/DIV) * C
+                bx = ox + radius * np.sin(ang - 0.5*sang + sang * 5/DIV) * C 
+                by = oy + radius * np.cos(ang - 0.5*sang + sang * 5/DIV) * C
 
-                cx = ox + radius * np.sin(ang - 0.5*sang + sang * 5/DIV) * B
-                cy = oy + radius * np.cos(ang - 0.5*sang + sang * 5/DIV) * B
+                cx = ox + radius * np.sin(ang - 0.5*sang + sang * 4.2/DIV) * B
+                cy = oy + radius * np.cos(ang - 0.5*sang + sang * 4.2/DIV) * B
 
                 ctx.curve_to(bx, by, cx, cy, dx, dy)
                 #ctx.set_source_rgb(0, 1, 0)
@@ -191,7 +191,8 @@ if True:
 
         if FILL:
             ctx.set_source_rgb(*BLUE)
-            ctx.fill()
+            if not TEST:
+                ctx.fill()
         else:
             ctx.set_line_width(1.5) 
             ctx.set_source_rgb(*GRAY)
