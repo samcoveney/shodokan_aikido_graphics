@@ -32,7 +32,7 @@ ctx = cairo.Context(pdf)
 ctx.scale(point_to_millimeter, point_to_millimeter)
 
 # Open image to an ARGB32 ImageSurface
-TEST = True
+TEST = False
 
 if TEST:
     filename = 'Shodokan_Symbol.png'
@@ -74,7 +74,7 @@ else: # for testing if my shape lines up with old image
 
 # ==== outer flower ====
 if True:
-    A, B, C = 0.96, 1.07, 0.95 #0.9750
+    A, B, C = 0.95, 1.065, 0.96 #0.9750
     DIV=128.
     ctx.set_source_rgb(0, 0, 1)
     radius = radius * 0.91 # NOTE: here, for the outer flower, we have a multiply A
