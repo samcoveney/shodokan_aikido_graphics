@@ -32,7 +32,9 @@ ctx = cairo.Context(pdf)
 ctx.scale(point_to_millimeter, point_to_millimeter)
 
 # Open image to an ARGB32 ImageSurface
-if True:
+TEST = False
+
+if TEST:
     filename = 'Shodokan_Symbol.png'
     ctx.select_font_face("Courier", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
 
@@ -58,7 +60,7 @@ sang = 2*math.pi/8.0
 radius = 140 
 
 
-if 0:
+if TEST == False:
     RED = [256.0/256., 9.0/256., 0.0/256.]
     BLUE = [16/255.,63/255.,188/255.]
     GRAY = [135/255.,141/255.,145/255.]
@@ -66,112 +68,125 @@ else: # for testing if my shape lines up with old image
     RED = [0, 1, 1]
     BLUE = [0, 1, 1]
     GRAY = [0, 1, 1]
+    GRAY = [0, 0, 0]
 
 
 
-A, B, C = 0.96, 1.07, 0.95 #0.9750
-DIV=128.
-ctx.set_source_rgb(0, 0, 1)
-radius = radius * 0.91 # NOTE: here, for the outer flower, we have a multiply A
-ax, ay = ox, oy + radius 
-ctx.move_to(ax, ay) # starting point
-for arc in range(1, 9):
+# ==== outer flower ====
+if True:
+    A, B, C = 0.96, 1.07, 0.95 #0.9750
+    DIV=128.
+    ctx.set_source_rgb(0, 0, 1)
+    radius = radius * 0.91 # NOTE: here, for the outer flower, we have a multiply A
+    ax, ay = ox, oy + radius 
+    ctx.move_to(ax, ay) # starting point
+    for arc in range(1, 9):
 
-    # bezier to half-way
-    ang = arc * sang - sang/2.0
-    # NOTE: factor of 0.5 to determine finishing posiiton
-    dx = ox + radius*A * np.sin(ang)
-    dy = oy + radius*A * np.cos(ang)
-    print(dx, dy)
+        # bezier to half-way
+        ang = arc * sang - sang/2.0
+        # NOTE: factor of 0.5 to determine finishing posiiton
+        dx = ox + radius*A * np.sin(ang)
+        dy = oy + radius*A * np.cos(ang)
+        print(dx, dy)
 
-    # TODO: move the spline control points inwards
+        # TODO: move the spline control points inwards
 
-    bx = ox + radius * np.sin(ang - sang * 1/DIV) * B 
-    by = oy + radius * np.cos(ang - sang * 1/DIV) * B
+        bx = ox + radius * np.sin(ang - sang * 1/DIV) * B 
+        by = oy + radius * np.cos(ang - sang * 1/DIV) * B
 
-    cx = ox + radius * np.sin(ang - sang * 2/DIV) * C
-    cy = oy + radius * np.cos(ang - sang * 2/DIV) * C
+        cx = ox + radius * np.sin(ang - sang * 2/DIV) * C
+        cy = oy + radius * np.cos(ang - sang * 2/DIV) * C
 
-    ctx.curve_to(bx, by, cx, cy, dx, dy)
-    #ctx.set_source_rgb(0, 0, 1)
-    #ctx.stroke()
-    #ctx.move_to(dx, dy) # starting point
-
-
-    # rest of the way
-    ang = arc * sang
-    dx = ox + radius * np.sin(ang)
-    dy = oy + radius * np.cos(ang)
-
-    # TODO: move the spline control points inwards
-
-    bx = ox + radius * np.sin(ang - 0.5*sang + sang * 2/DIV) * C 
-    by = oy + radius * np.cos(ang - 0.5*sang + sang * 2/DIV) * C
-
-    cx = ox + radius * np.sin(ang - 0.5*sang + sang * 1/DIV) * B
-    cy = oy + radius * np.cos(ang - 0.5*sang + sang * 1/DIV) * B
-
-    ctx.curve_to(bx, by, cx, cy, dx, dy)
-    #ctx.set_source_rgb(0, 1, 0)
-    #ctx.stroke()
-    #ctx.move_to(dx, dy) # starting point
+        ctx.curve_to(bx, by, cx, cy, dx, dy)
+        #ctx.set_source_rgb(0, 0, 1)
+        #ctx.stroke()
+        #ctx.move_to(dx, dy) # starting point
 
 
-ctx.set_line_width(1.5) 
-ctx.set_source_rgb(*GRAY)
-ctx.stroke()
+        # rest of the way
+        ang = arc * sang
+        dx = ox + radius * np.sin(ang)
+        dy = oy + radius * np.cos(ang)
 
-radius = radius / 0.91 # NOTE: here, for the outer flower, we have a multiply A
+        # TODO: move the spline control points inwards
+
+        bx = ox + radius * np.sin(ang - 0.5*sang + sang * 2/DIV) * C 
+        by = oy + radius * np.cos(ang - 0.5*sang + sang * 2/DIV) * C
+
+        cx = ox + radius * np.sin(ang - 0.5*sang + sang * 1/DIV) * B
+        cy = oy + radius * np.cos(ang - 0.5*sang + sang * 1/DIV) * B
+
+        ctx.curve_to(bx, by, cx, cy, dx, dy)
+        #ctx.set_source_rgb(0, 1, 0)
+        #ctx.stroke()
+        #ctx.move_to(dx, dy) # starting point
+
+
+    ctx.set_line_width(1.5) 
+    ctx.set_source_rgb(*GRAY)
+    ctx.stroke()
+
+    radius = radius / 0.91 # NOTE: here, for the outer flower, we have a multiply A
 
 
 # === blue star ===
 
-if False:
+radius *=1.03
+
+if True:
 
     for FILL in [True, False]:
-        A, B, C = 0.50, 0.62, 0.52
+        A, B, C = 0.44, 0.57, 0.45
+        DIV = 10.0
+        BUF = 0.0045
+        #BUF = 0.02
         ax, ay = ox, oy + radius
+        ax = ox + radius* np.sin(BUF)
+        ay = oy + radius* np.cos(BUF)
         ctx.move_to(ax, ay) # starting point
-        for arc in range(1, 9):
+        for arc in range(1, 10):
 
-            # bezier to half-way
-            ang = arc * sang - sang/2.0
-            # NOTE: factor of 0.5 to determine finishing posiiton
-            dx = ox + radius*A * np.sin(ang)
-            dy = oy + radius*A * np.cos(ang)
-            print(dx, dy)
+            if FILL == False or arc < 9:  # NOTE: extra gray outline to work with BUF
+                # bezier to half-way
+                ang = arc * sang - sang/2.0
+                # NOTE: factor of 0.5 to determine finishing posiiton
+                dx = ox + radius*A * np.sin(ang)
+                dy = oy + radius*A * np.cos(ang)
+                print(dx, dy)
 
-            # TODO: move the spline control points inwards
+                # TODO: move the spline control points inwards
 
-            bx = ox + radius * np.sin(ang - sang * 4/8) * B 
-            by = oy + radius * np.cos(ang - sang * 4/8) * B
+                bx = ox + radius * np.sin(ang - sang * 5/DIV) * B 
+                by = oy + radius * np.cos(ang - sang * 5/DIV) * B
 
-            cx = ox + radius * np.sin(ang - sang * 3/8.) * C
-            cy = oy + radius * np.cos(ang - sang * 3/8.) * C
+                cx = ox + radius * np.sin(ang - sang * 3/DIV) * C
+                cy = oy + radius * np.cos(ang - sang * 3/DIV) * C
 
-            ctx.curve_to(bx, by, cx, cy, dx, dy)
-            #ctx.set_source_rgb(0, 0, 1)
-            #ctx.stroke()
-            #ctx.move_to(dx, dy) # starting point
+                ctx.curve_to(bx, by, cx, cy, dx, dy)
+                #ctx.set_source_rgb(0, 0, 1)
+                #ctx.stroke()
+                #ctx.move_to(dx, dy) # starting point
 
 
-            # rest of the way
-            ang = arc * sang
-            dx = ox + radius * np.sin(ang)
-            dy = oy + radius * np.cos(ang)
+                # rest of the way
+                ang = arc * sang
+                dx = ox + radius * np.sin(ang - BUF)
+                dy = oy + radius * np.cos(ang - BUF)
 
-            # TODO: move the spline control points inwards
+                # TODO: move the spline control points inwards
 
-            bx = ox + radius * np.sin(ang - 0.5*sang + sang * 3/8) * C 
-            by = oy + radius * np.cos(ang - 0.5*sang + sang * 3/8) * C
+                bx = ox + radius * np.sin(ang - 0.5*sang + sang * 3/DIV) * C 
+                by = oy + radius * np.cos(ang - 0.5*sang + sang * 3/DIV) * C
 
-            cx = ox + radius * np.sin(ang - 0.5*sang + sang * 4/8.) * B
-            cy = oy + radius * np.cos(ang - 0.5*sang + sang * 4/8.) * B
+                cx = ox + radius * np.sin(ang - 0.5*sang + sang * 5/DIV) * B
+                cy = oy + radius * np.cos(ang - 0.5*sang + sang * 5/DIV) * B
 
-            ctx.curve_to(bx, by, cx, cy, dx, dy)
-            #ctx.set_source_rgb(0, 1, 0)
-            #ctx.stroke()
-            #ctx.move_to(dx, dy) # starting point
+                ctx.curve_to(bx, by, cx, cy, dx, dy)
+                #ctx.set_source_rgb(0, 1, 0)
+                #ctx.stroke()
+                dx = ox + radius * np.sin(ang + BUF)
+                dy = oy + radius * np.cos(ang + BUF)
+                ctx.line_to(dx, dy) # starting point
 
 
         if FILL:
@@ -180,6 +195,7 @@ if False:
         else:
             ctx.set_line_width(1.5) 
             ctx.set_source_rgb(*GRAY)
+            #ctx.set_source_rgb(*BLUE)
             ctx.stroke()
 
 if False:
@@ -208,11 +224,12 @@ if False:
     ctx.fill()
 
 # === red circle ===
-if False:
+if True:
     ctx.set_source_rgb(*GRAY)
-    circle(ox, oy, 15)
+    #ctx.set_source_rgb(*RED)
+    circle(ox, oy, 21.5)
     ctx.set_source_rgb(*RED)
-    circle(ox, oy, 13.5)
+    circle(ox, oy, 20)
 
 
 
