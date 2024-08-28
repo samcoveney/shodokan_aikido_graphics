@@ -136,7 +136,7 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
     if not TEST or FEATURE == "star":
 
         for FILL in [True, False]:
-            A, B, C = 0.44, 0.6, 0.48
+            A, B, C = 0.44, 0.6, 0.46
             DIV = 10.0
             BUF = 0.00
             #BUF = -0.002
@@ -159,8 +159,8 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
                     bx = ox + radius * np.sin(ang - sang * 4.2/DIV) * B 
                     by = oy + radius * np.cos(ang - sang * 4.2/DIV) * B
 
-                    cx = ox + radius * np.sin(ang - sang * 5/DIV) * C
-                    cy = oy + radius * np.cos(ang - sang * 5/DIV) * C
+                    cx = ox + radius * np.sin(ang - sang * 4/DIV) * C
+                    cy = oy + radius * np.cos(ang - sang * 4/DIV) * C
 
                     ctx.curve_to(bx, by, cx, cy, dx, dy)
                     #ctx.set_source_rgb(0, 0, 1)
@@ -180,8 +180,8 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
 
                     # TODO: move the spline control points inwards
 
-                    bx = ox + radius * np.sin(ang - 0.5*sang + sang * 5/DIV) * C 
-                    by = oy + radius * np.cos(ang - 0.5*sang + sang * 5/DIV) * C
+                    bx = ox + radius * np.sin(ang - 0.5*sang + sang * 4/DIV) * C 
+                    by = oy + radius * np.cos(ang - 0.5*sang + sang * 4/DIV) * C
 
                     cx = ox + radius * np.sin(ang - 0.5*sang + sang * 4.2/DIV) * B
                     cy = oy + radius * np.cos(ang - 0.5*sang + sang * 4.2/DIV) * B
