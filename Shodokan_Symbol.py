@@ -430,7 +430,7 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
     for ldx, letter in enumerate("AIKIDO"):
 
         ctx.set_source_rgb(*RED)
-        ang = - ldx * sang - 0.82 
+        ang = - ldx * sang - 0.78
         print(ang)
 
         #ANG = ang - 0.87*math.pi/2.
