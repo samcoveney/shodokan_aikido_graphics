@@ -1,11 +1,130 @@
 import math
 import cairo
+from gi.repository import Pango
+from gi.repository import PangoCairo 
 import numpy as np
 
+from collections import namedtuple
 
-def circle(ctx, x,y, radius):
+def warp_path(ctx, function):
+    first = True
+
+    for type, points in ctx.copy_path():
+        if type == cairo.PATH_MOVE_TO:
+            if first:
+                ctx.new_path()
+                first = False
+            x, y = function(*points)
+            ctx.move_to(x, y)
+
+        elif type == cairo.PATH_LINE_TO:
+            x, y = function(*points)
+            ctx.line_to(x, y)
+
+        elif type == cairo.PATH_CURVE_TO:
+            x1, y1, x2, y2, x3, y3 = points
+            x1, y1 = function(x1, y1)
+            x2, y2 = function(x2, y2)
+            x3, y3 = function(x3, y3)
+            ctx.curve_to(x1, y1, x2, y2, x3, y3)
+
+        elif type == cairo.PATH_CLOSE_PATH:
+            ctx.close_path()
+
+             
+def make_arc_method(capture_radius, capture_angle):
+    assert(capture_radius != 0)
+    if capture_radius < 0.:
+        capture_angle = capture_angle + math.pi
+    
+    
+    def arc(x, y):
+        r = -y
+        theta = (x) / capture_radius
+        xnew = r * math.cos(-theta - capture_angle)
+        ynew = r * math.sin(theta + capture_angle)
+        return xnew, ynew
+    
+    return arc
+
+Sector = namedtuple('Sector',['inside_radius','outside_radius','angle1','angle2','negative'])
+
+def text_arc_dimensions(context, text, radius, angle):
+    """
+    Get dimensions of a text arc
+    :param context  The cairo `context`
+    :param text     The text
+    :param radius   Radius of the baseline of the arc. If positive, text 
+          will ascend away from the origin. If negative, text will 
+          ascend towards the origin
+    :param angle    The angle of the text origin
+    :returns a Sector
+    
+    returns (baseline_radius, ascender_radius, left_angle, right_angle)
+    """
+    extents = context.text_extents(text)
+    assert(radius != 0)
+    width = extents.width / radius
+    height = math.copysign(extents.height, radius)
+    baseline_radius = abs(radius)
+    
+    negative = False
+    outside = 0.
+    inside = 0.
+    th1 = 0.
+    th2 = 0.
+    
+    if radius > 0.:
+        outside = baseline_radius + extents.height
+        inside = baseline_radius
+        th1 = angle
+        th2 = angle + width
+    else:
+        negative = True
+        outside = baseline_radius
+        inside = baseline_radius - extents.height
+        th1 = angle + width
+        th2 = angle
+    
+    return Sector(inside_radius=inside , outside_radius=outside, angle1=th1, angle2=th2, negative= negative )
+
+def text_arc_path(context, x, y, text, radius, angle):
+    """
+    Creates a text path along an arc
+    x and y : the position of the arc center
+    radius : the radius of the arc. If positive, text will ascend away from the origin. 
+      If negative, text will ascend towards the origin
+      
+    angle : The angle of the text origin.
+    
+    """
+    context.save()
+    context.translate(x,y)
+    
+    arc_function = make_arc_method(capture_radius=radius, 
+                                   capture_angle=angle)
+    
+    context.new_path()
+    context.move_to(0.,-radius)
+    context.text_path(text)
+    warp_path(context,arc_function)
+    context.restore()
+
+def sector(context,x, y, sector):
+    context.new_path()
+    context.arc(x, y, sector.inside_radius, sector.angle1, sector.angle2)
+    context.arc_negative(x, y, sector.outside_radius, sector.angle2, sector.angle1)
+    context.close_path() 
+
+
+
+
+def circle(ctx, x,y, radius, fill=True):
     ctx.arc(x, y, radius, 0, 2*math.pi)
-    ctx.fill()
+    if fill:
+        ctx.fill()
+    else:
+        ctx.stroke()
 
 
 
@@ -13,8 +132,8 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
 
     # set the canvas
     # ==============
-    paper_width = 300
-    paper_height = 300
+    paper_width = 450
+    paper_height = 450
     margin = 20
 
     point_to_millimeter = 72/25.4
@@ -52,7 +171,7 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
     # ---- PDF drawing ----
 
 
-    ox, oy = 150, 150
+    ox, oy = paper_width/2.0, paper_height/2.0
 
 
     sang = 2*math.pi/8.0
@@ -250,6 +369,101 @@ def main(TEST, FEATURE, OUTLINE, PDFNAME):
         circle(ctx, ox, oy, 20)
 
 
+    # === medal border ===
+    if True:  # FIXME: add appropriate switch
+        ctx.set_source_rgb(*BLUE)
+        ctx.set_line_width(3.0) 
+        circle(ctx, ox, oy, 200, fill=False)
+
+    
+    # === medal text ===
+    if 0:
+        ctx.set_source_rgb(*BLUE)
+        ctx.set_font_size(48.0) 
+        text_arc_path(ctx, ox, oy, "SHODOKAN", 150, 360)
+        ctx.stroke()
+
+
+    layout = PangoCairo.create_layout(ctx)
+    #font_description = Pango.font_description_from_string('Arial, Ultra-Bold, 40')
+    font_description = Pango.font_description_from_string('Times New Roman, Ultra-Bold, 40')
+    layout.set_font_description(font_description)
+
+    arc = 30
+    sang = math.pi / 9.0
+    for ldx, letter in enumerate("SHODOKAN"):
+
+        ctx.set_source_rgb(*RED)
+        ang = ldx * sang
+        print(ang)
+
+        #ANG = ang - 0.87*math.pi/2.
+        ANG = ang - 0.78*math.pi/2.
+        RAD = 1.4
+
+        dx = ox + RAD*radius * np.sin(ANG) #- 20
+        dy = oy - RAD*radius * np.cos(ANG) #- 20
+        print(dx, dy)
+
+        # shift box back in this direction, so line from centre of letter goes through origin
+        vector = np.array([dx - ox, dy - oy])
+        vector = vector / np.linalg.norm(vector)
+        vector = np.array([[np.cos(-math.pi/2), -np.sin(-math.pi/2)],\
+                            [-np.sin(-math.pi/2), np.cos(-math.pi/2)]]) @ vector 
+
+        
+        ctx.move_to(dx + vector[0]*18, dy-vector[1]*18)
+        ctx.rotate(ANG)
+        #ctx.translate(+50, 0)
+        layout.set_text(letter)
+
+        print(ldx, letter)
+
+#    PangoCairo.update_layout(ctx, layout)
+        PangoCairo.show_layout(ctx, layout)
+        #ctx.translate(-50, 0)
+        ctx.rotate(-ANG)
+
+    #layout.set_text("SHODOKAN")
+    arc = 30
+    sang = math.pi / 7.0
+    for ldx, letter in enumerate("AIKIDO"):
+
+        ctx.set_source_rgb(*RED)
+        ang = - ldx * sang - 0.82 
+        print(ang)
+
+        #ANG = ang - 0.87*math.pi/2.
+        ANG = ang - 0.78*math.pi/2.
+        RAD = 0.95 
+
+        dx = ox + RAD*radius * np.sin(ANG) #- 20
+        dy = oy - RAD*radius * np.cos(ANG) #- 20
+        print(dx, dy)
+
+        # shift box back in this direction, so line from centre of letter goes through origin
+        vector = np.array([dx - ox, dy - oy])
+        vector = vector / np.linalg.norm(vector)
+        vector = np.array([[np.cos(-math.pi/2), -np.sin(-math.pi/2)],\
+                            [-np.sin(-math.pi/2), np.cos(-math.pi/2)]]) @ vector 
+
+        if letter != "I": 
+            ctx.move_to(dx - vector[0]*18, dy+vector[1]*18)
+        else:
+            ctx.move_to(dx - vector[0]*10, dy+vector[1]*10)
+
+        ctx.rotate(ANG + math.pi)
+        #ctx.translate(+50, 0)
+        layout.set_text(letter)
+
+        print(ldx, letter)
+
+#    PangoCairo.update_layout(ctx, layout)
+        PangoCairo.show_layout(ctx, layout)
+        #ctx.translate(-50, 0)
+        ctx.rotate(-ANG - math.pi)
+
+    # === create PDF ===
     pdf.show_page()
 
 
