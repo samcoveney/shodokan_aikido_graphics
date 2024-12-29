@@ -26,9 +26,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9050967"
-     inkscape:cx="58.569171"
-     inkscape:cy="756.09401"
+     inkscape:zoom="1.8101934"
+     inkscape:cx="276.07399"
+     inkscape:cy="657.36513"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,9 +56,9 @@
     <ellipse
        style="opacity:0.1;fill:#ff0000;fill-opacity:1;stroke:#103fbc;stroke-width:2.07229662;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path1072"
-       cx="-138.66179"
-       cy="-117.68669"
-       transform="rotate(-165.58534)"
+       cx="-45.893726"
+       cy="-175.98584"
+       transform="rotate(159.3531)"
        rx="71.448143"
        ry="71.448189" />
     <ellipse
@@ -72,9 +72,9 @@
     <ellipse
        style="opacity:0.1;fill:none;fill-opacity:1;stroke:#103fbc;stroke-width:2.07287598;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path1072-4"
-       cx="38.008606"
-       cy="177.85567"
-       transform="matrix(-0.67782926,0.73521935,0.73522165,0.67782677,0,0)"
+       cx="43.702644"
+       cy="176.54286"
+       transform="matrix(-0.65386027,0.75661532,0.75661754,0.65385771,0,0)"
        rx="71.468155"
        ry="71.468102" />
     <text
@@ -84,15 +84,15 @@
        x="3.4917326"><textPath
          xlink:href="#path1072"
          id="textPath1080"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05555534px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:3.65918756px;word-spacing:1.28852081px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1"
-         dy="-1.16">SAUK STUDENT NATIONALS</textPath></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05555534px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:2.64583325px;word-spacing:1.58749998px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+         dy="-1.1799999">SHODOKAN AIKIDO UK STUDENT NATIONALS</textPath></text>
     <rect
-       style="opacity:0.1;fill:none;fill-opacity:1;stroke:#103fbc;stroke-width:1.85873151;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.1;fill:none;fill-opacity:1;stroke:#103fbc;stroke-width:1.11061013;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect1286"
-       width="165.4525"
-       height="78.295059"
-       x="22.273754"
-       y="127.45934" />
+       width="165.46236"
+       height="27.951065"
+       x="22.268824"
+       y="175.43115" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:6.4399581px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
@@ -136,9 +136,9 @@
        id="text1086"><textPath
          xlink:href="#path1072-4"
          id="textPath1113"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.11111069px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:3.13002086px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.11111069px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:3.13002086px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none;word-spacing:1.5875px"><tspan
            id="tspan1088"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05555534px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:3.13002086px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.265;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05555534px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:2.64583333px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.265;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;word-spacing:1.5875px"
            dy="6.29">SHEFFIELD 2025</tspan></textPath></text>
     <g
        transform="matrix(0.16052918,0,0,0.16052949,36.743474,80.243342)"
